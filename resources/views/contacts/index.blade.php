@@ -20,10 +20,15 @@
                 <td>{{$contact->contact}}</td>
                 <td>{{$contact->email}}</td>
                 <td><a href="{{route('contacts.edit', [$contact->id])}}">Edit</a>
-                    <a href="#">Delete</a>
+                    <a href="{{route('contacts.delete', [$contact->id])}}">Delete</a>
                 </td>
             </tr>
         @endforeach
+        @empty($contact)
+            <tr>
+                <td colspan="5">Nothing here</td>
+            </tr>
+        @endempty
         </tbody>
     </table>
 @endsection
