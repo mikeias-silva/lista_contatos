@@ -37,9 +37,9 @@ class ContactsController extends Controller
         }
     }
 
-    public function show(Contacts $contacts)
+    public function show(Contacts $contact)
     {
-        //
+        return view('contacts.show', compact('contact'));
     }
 
     public function edit(Contacts $contact)

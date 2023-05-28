@@ -14,15 +14,18 @@
         </thead>
         <tbody>
         @foreach($contacts as $contact)
+
             <tr>
                 <td>{{$contact->id}}</td>
                 <td>{{$contact->name}}</td>
                 <td>{{$contact->contact}}</td>
                 <td>{{$contact->email}}</td>
-                <td><a href="{{route('contacts.edit', [$contact->id])}}">Edit</a>
+                <td><a href="{{route('contacts.show', [$contact->id])}}">View</a>
+                    <a href="{{route('contacts.edit', [$contact->id])}}">Edit</a>
                     <a href="{{route('contacts.delete', [$contact->id])}}">Delete</a>
                 </td>
             </tr>
+
         @endforeach
         @empty($contact)
             <tr>
