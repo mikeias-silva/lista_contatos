@@ -2,12 +2,12 @@
 @section('content')
     @include('messages.message')
     @if (Auth::check())
-        <a href="{{route('contacts.create')}}">New Contact</a>
+        <a href="{{route('contacts.create')}}" class="btn btn-primary mb-4">New Contact</a>
     @endif
-    <table>
+    <table class="table">
         <thead>
         <tr>
-            <th>ID</th>
+            <th>#</th>
             <th>Name</th>
             <th>Contact</th>
             <th>Email</th>
@@ -24,9 +24,9 @@
                 <td>{{$contact->email}}</td>
                 <td>
                     @if (Auth::check())
-                        <a href="{{route('contacts.show', [$contact->id])}}">View</a>
-                        <a href="{{route('contacts.edit', [$contact->id])}}">Edit</a>
-                        <a href="{{route('contacts.delete', [$contact->id])}}">Delete</a>
+                        <a href="{{route('contacts.show', [$contact->id])}}" class="btn btn-outline-secondary">View</a>
+                        <a href="{{route('contacts.edit', [$contact->id])}}" class="btn btn-outline-info">Edit</a>
+                        <a href="{{route('contacts.delete', [$contact->id])}}" class="btn btn-outline-danger">Delete</a>
                     @else
                         Nothing to show
                     @endif

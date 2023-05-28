@@ -30,7 +30,7 @@ class ContactsController extends Controller
                 'contact' => $request->contact
             ]);
             Log::channel('daily')->debug("New Contacts id: $newContact->id");
-            return redirect()->route('contacts.index')->with('success', 'Success!');
+            return redirect()->route('contacts.index')->with('success', "New contact '$newContact->name' created successfully!");
         } catch (\Exception $exception) {
             Log::channel('daily')->error("Error trying create new contact $exception->getMessage()");
             return redirect()->back()->withErrors(['error' => $exception->getMessage()]);
@@ -49,7 +49,6 @@ class ContactsController extends Controller
 
     public function update(UpdateContactsRequest $request, Contacts $contact)
     {
-//        dd('oites');
         $contact->name = $request->name;
         $contact->contact = $request->contact;
         $contact->email = $request->email;
@@ -57,14 +56,12 @@ class ContactsController extends Controller
         try {
             $contact->save();
             Log::channel('daily')->debug("Contact updated id: $contact->id");
-            return redirect()->route('contacts.index')->with('success', 'Success!');
+            return redirect()->route('contacts.index')->with('success', 'Updated contact successfully!');
         } catch (\Exception $exception) {
             Log::channel('daily')->error("Error trying edit id: $contact->id");
             Log::channel('daily')->error("Error trying edit $exception->getMessage()");
             return redirect()->back()->withErrors(['error' => $exception->getMessage()]);
-
         }
-
     }
 
     public function destroy(Contacts $contact)

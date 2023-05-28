@@ -1,4 +1,4 @@
-@extends('layouts.master')
+@extends('layouts.app')
 @section('content')
     <form action="{{route('contacts.store')}}" method="POST">
         @csrf

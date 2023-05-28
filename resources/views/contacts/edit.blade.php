@@ -1,4 +1,4 @@
-@extends('layouts.master')
+@extends('layouts.app')
 @section('content')
     <form action="{{route('contacts.update', [$contact->id])}}" method="POST">
         @csrf
