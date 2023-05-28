@@ -31,8 +31,9 @@ class ContactsController extends Controller
             ]);
             Log::channel('daily')->debug("New Contacts id: $newContact->id");
             return redirect()->route('contacts.index')->with('success', 'Success!');
-        } catch (\Exception $e) {
-            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+        } catch (\Exception $exception) {
+            Log::channel('daily')->error("Error trying create new contact $exception->getMessage()");
+            return redirect()->back()->withErrors(['error' => $exception->getMessage()]);
         }
     }
 
@@ -58,14 +59,29 @@ class ContactsController extends Controller
             Log::channel('daily')->debug("Contact updated id: $contact->id");
             return redirect()->route('contacts.index')->with('success', 'Success!');
         } catch (\Exception $exception) {
+            Log::channel('daily')->error("Error trying edit id: $contact->id");
+            Log::channel('daily')->error("Error trying edit $exception->getMessage()");
             return redirect()->back()->withErrors(['error' => $exception->getMessage()]);
 
         }
 
     }
 
-    public function destroy(Contacts $contacts)
+    public function destroy(Contacts $contact)
     {
-        //
+        try {
+            $contact->delete();
+            Log::channel('daily')->debug("Contact deleted id: $contact->id");
+            return redirect()->route('contacts.index')->with('warning', 'Successfully deleted!');
+        } catch (\Exception $exception) {
+            Log::channel('daily')->error("Error trying delete id: $contact->id");
+            Log::channel('daily')->error("Error trying delete $exception->getMessage()");
+            return redirect()->back()->withErrors(['error' => $exception->getMessage()]);
+        }
+    }
+
+    public function delete(Contacts $contact)
+    {
+        return view('contacts.delete', compact('contact'));
     }
 }
