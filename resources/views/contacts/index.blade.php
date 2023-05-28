@@ -1,7 +1,9 @@
-@extends('layouts.master')
+@extends('layouts.app')
 @section('content')
     @include('messages.message')
-    <a href="{{route('contacts.create')}}">New Contact</a>
+    @if (Auth::check())
+        <a href="{{route('contacts.create')}}">New Contact</a>
+    @endif
     <table>
         <thead>
         <tr>
@@ -20,9 +22,14 @@
                 <td>{{$contact->name}}</td>
                 <td>{{$contact->contact}}</td>
                 <td>{{$contact->email}}</td>
-                <td><a href="{{route('contacts.show', [$contact->id])}}">View</a>
-                    <a href="{{route('contacts.edit', [$contact->id])}}">Edit</a>
-                    <a href="{{route('contacts.delete', [$contact->id])}}">Delete</a>
+                <td>
+                    @if (Auth::check())
+                        <a href="{{route('contacts.show', [$contact->id])}}">View</a>
+                        <a href="{{route('contacts.edit', [$contact->id])}}">Edit</a>
+                        <a href="{{route('contacts.delete', [$contact->id])}}">Delete</a>
+                    @else
+                        Nothing to show
+                    @endif
                 </td>
             </tr>
 
