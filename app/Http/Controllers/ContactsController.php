@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ContactsRequest;
+use App\Http\Requests\StoreContactsRequest;
+use App\Http\Requests\UpdateContactsRequest;
 use App\Models\Contacts;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class ContactsController extends Controller
 {
@@ -19,14 +21,15 @@ class ContactsController extends Controller
         return view('contacts.create');
     }
 
-    public function store(ContactsRequest $request)
+    public function store(StoreContactsRequest $request)
     {
         try {
-            Contacts::create([
+            $newContact = Contacts::create([
                 'name' => $request->name,
                 'email' => $request->email,
                 'contact' => $request->contact
             ]);
+            Log::channel('daily')->debug("New Contacts id: $newContact->id");
             return redirect()->route('contacts.index')->with('success', 'Success!');
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
@@ -38,14 +41,27 @@ class ContactsController extends Controller
         //
     }
 
-    public function edit(Contacts $contacts)
+    public function edit(Contacts $contact)
     {
-        //
+        return view('contacts.edit', compact('contact'));
     }
 
-    public function update(Request $request, Contacts $contacts)
+    public function update(UpdateContactsRequest $request, Contacts $contact)
     {
-        //
+//        dd('oites');
+        $contact->name = $request->name;
+        $contact->contact = $request->contact;
+        $contact->email = $request->email;
+
+        try {
+            $contact->save();
+            Log::channel('daily')->debug("Contact updated id: $contact->id");
+            return redirect()->route('contacts.index')->with('success', 'Success!');
+        } catch (\Exception $exception) {
+            return redirect()->back()->withErrors(['error' => $exception->getMessage()]);
+
+        }
+
     }
 
     public function destroy(Contacts $contacts)
