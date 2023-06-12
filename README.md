@@ -1,1 +1,1 @@
-This is a project for Develop a CRUD Laravel web application to manage contacts
+This is a simple project with Laravel 10 / PHP 8
